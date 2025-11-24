@@ -1,0 +1,22 @@
+
+name: Swift
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Select Xcode
+      run: sudo xcode-select -switch /Applications/Xcode_16.4.app
+    - name: Xcode version
+      run: /usr/bin/xcodebuild -version
+    - name: Build and Test iOS
+      run: xcodebuild -scheme NavRouter -destination 'platform=iOS Simulator,name=iPhone 17' clean build test
