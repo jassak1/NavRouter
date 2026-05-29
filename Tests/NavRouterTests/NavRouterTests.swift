@@ -24,6 +24,7 @@ struct NavRouterTests {
     func initAdditionalStylesPaths(navRouteItem: TestNavRouteItem) async throws {
         #expect(navRouter[.sheet] == nil)
         #expect(navRouter[.fullScreenCover] == nil)
+        #expect(navRouter[.fullScreenCoverWithNavBar] == nil)
         navRouter.navigate(to: navRouteItem, navigationStyle: .sheet)
         #expect(navRouter[.sheet] != nil)
         #expect(navRouter[.fullScreenCover] == nil)
@@ -35,6 +36,12 @@ struct NavRouterTests {
         navRouter.navigate(to: navRouteItem)
         #expect(navRouter[.sheet].count == 0)
         #expect(navRouter[.fullScreenCover].count == 2)
+        navRouter.dismissFullScreenCover()
+        navRouter.navigate(to: navRouteItem, navigationStyle: .fullScreenCoverWithNavBar)
+        #expect(navRouter[.fullScreenCoverWithNavBar] != nil)
+        navRouter.navigate(to: navRouteItem)
+        navRouter.navigate(to: navRouteItem)
+        #expect(navRouter[.fullScreenCoverWithNavBar].count == 2)
     }
     
     @Test(.tags(.navigateToTests))
@@ -45,6 +52,7 @@ struct NavRouterTests {
         navRouter.navigate(to: .contactScreen)
         #expect(navRouter[.sheet].isEmpty)
         #expect(navRouter[.fullScreenCover].isEmpty)
+        #expect(navRouter[.fullScreenCoverWithNavBar].isEmpty)
         #expect(navRouter[.homeTab].isEmpty)
         #expect(navRouter[.settingsTab].count == 1)
         navRouter.navigate(to: .detailScreen)
@@ -85,5 +93,22 @@ struct NavRouterTests {
         #expect(navRouter[.fullScreenCover] != nil)
         navRouter.dismissFullScreenCover()
         #expect(navRouter[.fullScreenCover] == nil)
+    }
+    
+    @Test(.tags(.navigateToTests))
+    func navigateToFullScreenWithNavBarCover() async throws {
+        #expect(navRouter[.fullScreenCoverWithNavBar] == nil)
+        #expect(navRouter[.fullScreenCoverWithNavBar].isEmpty)
+        navRouter.navigate(to: .profileScreen, navigationStyle: .fullScreenCoverWithNavBar)
+        #expect(navRouter[.fullScreenCoverWithNavBar] != nil)
+        #expect(navRouter[.fullScreenCoverWithNavBar].isEmpty)
+        navRouter.navigate(to: .contactScreen)
+        navRouter.navigate(to: .notificationsScreen)
+        #expect(navRouter[.fullScreenCoverWithNavBar].count == 2)
+        navRouter.popToRoot()
+        #expect(navRouter[.fullScreenCoverWithNavBar].isEmpty)
+        #expect(navRouter[.fullScreenCoverWithNavBar] != nil)
+        navRouter.dismissFullScreenCover()
+        #expect(navRouter[.fullScreenCoverWithNavBar] == nil)
     }
 }

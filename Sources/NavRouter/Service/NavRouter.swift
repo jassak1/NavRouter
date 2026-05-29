@@ -58,6 +58,8 @@ public class NavRouter<NavTabs: NavTabItem,
                 additionalPaths[.sheet]?.append(destination)
             } else if additionalItems[.fullScreenCover] != nil {
                 additionalPaths[.fullScreenCover]?.append(destination)
+            } else if additionalItems[.fullScreenCoverWithNavBar] != nil {
+                additionalPaths[.fullScreenCoverWithNavBar]?.append(destination)
             } else {
                 if let selectedTab {
                     navPaths[selectedTab]?.append(destination)
@@ -68,6 +70,8 @@ public class NavRouter<NavTabs: NavTabItem,
             additionalItems[.sheet] = destination
         case .fullScreenCover:
             additionalItems[.fullScreenCover] = destination
+        case .fullScreenCoverWithNavBar:
+            additionalItems[.fullScreenCoverWithNavBar] = destination
         }
     }
     
@@ -79,6 +83,8 @@ public class NavRouter<NavTabs: NavTabItem,
             additionalPaths[.sheet]?.removeAll()
         } else if additionalItems[.fullScreenCover] != nil {
             additionalPaths[.fullScreenCover]?.removeAll()
+        } else if additionalItems[.fullScreenCoverWithNavBar] != nil {
+            additionalPaths[.fullScreenCoverWithNavBar]?.removeAll()
         } else {
             if let selectedTab {
                 navPaths[selectedTab] = .init()
@@ -98,6 +104,8 @@ public class NavRouter<NavTabs: NavTabItem,
     public func dismissFullScreenCover() {
         additionalItems[.fullScreenCover] = nil
         additionalPaths[.fullScreenCover] = .init()
+        additionalItems[.fullScreenCoverWithNavBar] = nil
+        additionalPaths[.fullScreenCoverWithNavBar] = .init()
     }
     
     // MARK: - Subscripts
@@ -140,7 +148,9 @@ public class NavRouter<NavTabs: NavTabItem,
         navPaths = .init()
         additionalItems = .init()
         presentationDetents = .large
-        additionalPaths = [.sheet: .init(), .fullScreenCover: .init()]
+        additionalPaths = [.sheet: .init(),
+                           .fullScreenCover: .init(),
+                           .fullScreenCoverWithNavBar: .init()]
         // Inits empty dictionary value for each tab upon `NavRouter` initialization
         _ = NavTabs.allCases.map {
             navPaths[$0] = .init()

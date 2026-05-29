@@ -62,10 +62,14 @@ struct AdditionalRoutingViewModifier<NavTabs: NavTabItem,
             }
                    .fullScreenCover(item: $navRouter[.fullScreenCover],
                                     onDismiss: { navRouter.dismissFullScreenCover() }) { route in
-                       NavWrapper(navPath: $navRouter[.fullScreenCover], screenView: destinationView(route)) {
-                           destinationView($0)
-                       }
+                       destinationView(route)
                    }
+                                    .fullScreenCover(item: $navRouter[.fullScreenCoverWithNavBar],
+                                                     onDismiss: { navRouter.dismissFullScreenCover() }) { route in
+                                        NavWrapper(navPath: $navRouter[.fullScreenCoverWithNavBar], screenView: destinationView(route)) {
+                                            destinationView($0)
+                                        }
+                                    }
     }
 }
 
