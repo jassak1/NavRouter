@@ -9,5 +9,5 @@ import Foundation
 
 /// Available navigation styles used within `navigate(to: )` method of `NavRouter`.
 public enum NavigationStyles: CaseIterable, Hashable {
-    case push, sheet, fullScreenCover
+    case push, sheet, fullScreenCover, fullScreenCoverWithNavBar
 }
